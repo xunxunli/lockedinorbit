@@ -183,6 +183,8 @@ body.menu-open::after {
     background-color: #111;
     color: white;
     max-width: 600px;
+    width: 90%; /* Makes it responsive */
+    margin: 0 auto; /* Additional centering */
 }
 
 .start-content h1 {
