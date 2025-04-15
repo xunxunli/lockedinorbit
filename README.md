@@ -1,2 +1,2 @@
-# SpaceAdventure
-INLS 690 Choose your own adventure project.
+# Locked in Orbit
+INLS 690 accessible choose your own adventure project.
