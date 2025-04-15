@@ -1,5 +1,7 @@
 const sceneTransitionSound = new Audio("sounds/scene-transition.wav");
-sceneTransitionSound.volume = 1; // adjust volume if needed
+sceneTransitionSound.volume = 0.3;
+const choiceHoverSound = new Audio("sounds/choice-hover.wav"); // Add this sound file
+choiceHoverSound.volume = 0.8; // Adjust volume as needed
 
 // Audio context workaround for Chrome
 let audioContext = null;
@@ -7,17 +9,13 @@ let audioContext = null;
 function unlockAudio() {
     if (audioContext) return;
     
-    // Create web audio context
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    
-    // Create empty buffer and play it
     const buffer = audioContext.createBuffer(1, 1, 22050);
     const source = audioContext.createBufferSource();
     source.buffer = buffer;
     source.connect(audioContext.destination);
     source.start(0);
     
-    // Resume audio context on any user interaction
     document.addEventListener('click', () => {
         if (audioContext.state === 'suspended') {
             audioContext.resume();
@@ -25,21 +23,27 @@ function unlockAudio() {
     }, { once: true });
 }
 
-// Call this at game start
-unlockAudio();
-
 // Game state
 const gameState = {
-    currentScene: "start",
+    currentScene: "welcome",
     selectedChoice: 0,
     speechSynth: window.speechSynthesis,
     speechUtterance: null,
-    speechRate: 2.0,
+    speechRate: 2.2,
     isSettingsOpen: false,
     settingsFocusedElement: null,
     isSpeaking: false,
     lastSpokenWord: 0,
+    sceneTextFinished: false,
+    choicesLocked: true,
+    audioEnabled: true, // Add this flag for sound control
     scenes: {
+        "welcome": {
+            "text": "Welcome to Locked in Orbit, a choose your own adventure story. Use up and down arrows to navigate choices, enter to select, and space to repeat the scene text. Press the right arrow key to skip scene text. Press S at any time to open voice speed settings.",
+            "choices": [
+                {"text": "Begin your adventure", "next": "start"}
+            ]
+        },
         "start": {
 "text": "The smell of burnt wires fills the air. Cold metal presses against your back as you wake up, your head pounding. Something is wrong. Red emergency lights flash on and off. A distant alarm blares, broken by bursts of static from the ship’s speakers. The ship hums softly beneath you, but it sounds… weaker than it should. A robotic voice crackles over the intercom, words cutting in and out: 'Warning: Critical failure detected. Crew status unknown. Please proceed to the nearest safe zone.' No response. No voices. Just silence. A control panel nearby blinks weakly. The door to the crew quarters is slightly open. The hallway is still. Then, from the vents above, something moves. Light, quick footsteps, too fast to be human.",
 "choices": [
@@ -49,6 +53,15 @@ const gameState = {
 {"text": "Option 4: Investigate the sound coming from the vents", "next": "vents_intro"},
 ]
 },
+//         "start": {
+// "text": "The smell of burnt wires fills the air. Cold metal presses against your back as you wake up, your head pounding. Something is wrong. Red emergency lights flash on and off. A distant alarm blares, broken by bursts of static from the ship’s speakers. The ship hums softly beneath you, but it sounds… weaker than it should. A robotic voice crackles over the intercom, words cutting in and out: 'Warning: Critical failure detected. Crew status unknown. Please proceed to the nearest safe zone.' No response. No voices. Just silence. A control panel nearby blinks weakly. The door to the crew quarters is slightly open. The hallway is still. Then, from the vents above, something moves. Light, quick footsteps, too fast to be human.",
+// "choices": [
+// {"text": "Option 1: Check the control panel. Maybe it has logs that explain what happened.", "next": "control_intro"},
+// {"text": "Option 2: Search the crew quarters. Someone might still be here.", "next": "crew_intro"},
+// {"text": "Option 3: Head for the escape pods. No time to waste, get out while you can.", "next": "escape_intro"},
+// {"text": "Option 4: Investigate the sound coming from the vents", "next": "vents_intro"},
+// ]
+// },
 "control_intro": {
 "text": "The machine beeps and whirrs as you power it on. The screen flickers, making it hard to read. A log file appears: LOG ENTRY 0042: “Unknown lifeform detected. Crew advised to…” (The rest of the message is corrupted.) Before you can read further, the ship shakes violently. The sound of something large crawling through the vents grows louder.",
 "choices": [
@@ -95,9 +108,8 @@ const gameState = {
 "control_hide": {
 "text": "You press yourself deep under the console, your back against cold plating as you hear the scrape-scrape-scrape of something moving in the vents above you. A clang echoes through the chamber as one of the vent covers hits the floor. Something heavy drops down. Claws tap against the deck, testing. Hunting.",
 "choices": [
-{"text": "Choice 1: Stay hidden. Maybe it will leave.", "next": ""},
-{"text": "Choice 2: Make a break for the door.", "next": ""},
-{"text": "Choice 3: Try to fight.", "next": ""},
+{"text": "Choice 1: Stay hidden. Maybe it will leave.", "next": "control_hide_2"},
+{"text": "Choice 2: Make a break for the door.", "next": "control_run"},
 ]
 },
 "control_run": {
@@ -106,6 +118,12 @@ const gameState = {
 {"text": "Choice 1: Head to the crew quarters.", "next": "crew_intro"},
 {"text": "Choice 2: Head for the escape pods", "next": "escape_intro"},
 {"text": "Choice 3: Investigate the creature in the vents.", "next": "vents_intro"},
+]
+},
+"control_hide_2": {
+"text": "You don’t move. You don’t breathe. The thing’s footsteps are slow, deliberate. It pauses. Sniffs the air. The console above you creaks as it leans over, its weight making the metal groan. A drop of something warm and thick lands on your shoulder. Then— A hand, slick with oil and too many fingers, curls around the edge of the console. You close your eyes as you feel something drag you into the dark. GAME OVER.",
+"choices": [
+{"text": "Restart game.", "next": "start"},
 ]
 },
 "crew_intro": {
@@ -352,7 +370,7 @@ const gameState = {
 ]
 },
 "escape_intro": {
-"text": "(sound effect - doors open, footsteps echoing in a metal hallway). You You reach the pod bay. The doors flash red—emergency lockdown engaged. The ship's AI chimes in: 'Escape pods are unavailable. Please go to the safe room'. Something seems off-putting about this AI. ",
+"text": "(sound effect - doors open, footsteps echoing in a metal hallway). You reach the pod bay. The doors flash red—emergency lockdown engaged. The ship's AI chimes in: 'Escape pods are unavailable. Please go to the safe room'. Something seems off-putting about this AI. ",
 "choices": [
 {"text": "Choice 1: Try to override the disabled lock for the escape pods. You have a fishy feeling about this AI system. ", "next": "override_intro"},
 {"text": "Choice 2: Ask the AI system for help with overriding the escape pod lock. The AI system chimes in 'You can certainly try to decipher the escape pod code, but I am only giving you three hints. Going to the safe room is your best bet'", "next": "hint_intro"},
@@ -527,51 +545,64 @@ const gameState = {
 };
 // Initialize the game
 function initGame() {
-    // Focus the game container for keyboard input
-    document.getElementById('game-container').focus();
+    unlockAudio();
     
-    // Display the first scene
-    displayScene(gameState.currentScene);
+    // Set up click-to-begin
+    const startScreen = document.getElementById('start-screen');
+    startScreen.style.display = 'block';
+    startScreen.addEventListener('click', () => {
+        startScreen.style.display = 'none';
+        // Focus the game container before displaying scene
+        document.getElementById('game-container').focus();
+        displayScene(gameState.currentScene);
+    });
     
-    // Set up keyboard controls
+    // Also allow any key to start (now works without clicking first)
+    document.addEventListener('keydown', (e) => {
+        if (startScreen.style.display !== 'none') {
+            startScreen.style.display = 'none';
+            // Focus the game container before displaying scene
+            document.getElementById('game-container').focus();
+            displayScene(gameState.currentScene);
+        }
+    }, { once: true });
+    
     setupControls();
-    
-    // Set up settings menu
     setupSettingsMenu();
-    
-    // Set initial rate display
     document.getElementById('rate-value').textContent = gameState.speechRate.toFixed(1);
     
-    // Speak welcome message
-    speak("Welcome to Locked in Orbit, a choose your own adventure story. Use up and down arrows to choose, enter to select, space to repeat the current text. Press S at any time to open settings.");
+    // Automatically focus the game container on load
+    document.getElementById('game-container').focus();
 }
+
 
 // Display a scene and its choices
 function displayScene(sceneId) {
-    // Stop any current speech
     gameState.speechSynth.cancel();
+    gameState.sceneTextFinished = false;
+    gameState.choicesLocked = true;
     
     const scene = gameState.scenes[sceneId];
     if (!scene) return;
-    
+
     // Play transition sound
     sceneTransitionSound.play().catch(e => {
         console.log("Audio play failed:", e);
-        unlockAudio(); // Try to unlock audio if failed
+        unlockAudio();
     });
 
     gameState.currentScene = sceneId;
     gameState.selectedChoice = 0;
     
-    // Update the displayed text
-    const sceneTextElement = document.getElementById('scene-text');
-    sceneTextElement.textContent = scene.text;
+    document.getElementById('scene-text').textContent = scene.text;
     
-    // Update choices
     const choicesElement = document.getElementById('choices');
     choicesElement.innerHTML = '';
     
-    if (scene.choices.length > 0) {
+    if (scene.choices && scene.choices.length > 0) {
+        // Add locked overlay
+        choicesElement.classList.add('choices-locked');
+        
         scene.choices.forEach((choice, index) => {
             const choiceElement = document.createElement('div');
             choiceElement.className = 'choice';
@@ -588,57 +619,43 @@ function displayScene(sceneId) {
     // Speak the scene text
     speak(scene.text);
     
-    // If there are choices, speak them after scene text finishes
-    if (scene.choices.length > 0) {
-        const checkSpeaking = setInterval(() => {
-            if (!gameState.isSpeaking) {
-                clearInterval(checkSpeaking);
-                setTimeout(() => {
-                    speak("Your choices are:");
-                    setTimeout(() => {
-                        speak(scene.choices[0].text);
-                    }, 300);
-                }, 500);
-            }
-        }, 100);
-    }
+    // When scene text finishes
+    gameState.speechUtterance.onend = () => {
+        gameState.sceneTextFinished = true;
+        gameState.choicesLocked = false;
+        document.getElementById('choices').classList.remove('choices-locked');
+        
+        if (scene.choices && scene.choices.length > 0) {
+            // Immediately read the first choice when scene text finishes
+            readCurrentChoice();
+        }
+    };
 }
 
-// Calculate approximate speech duration (for timing)
-function calculateSpeechDuration(text) {
-    const words = text.split(/\s+/).length;
-    const seconds = (words / 150) * 60;
-    return seconds * 1000;
+function readCurrentChoice() {
+    const scene = gameState.scenes[gameState.currentScene];
+    if (!scene || !scene.choices || gameState.selectedChoice >= scene.choices.length) return;
+    
+    // Changed to interrupt=true to allow cutting off previous choice
+    speak(scene.choices[gameState.selectedChoice].text, true);
 }
 
 // Speak text using the Web Speech API
 function speak(text, interrupt = true) {
-    // Create a new utterance each time
+    if (gameState.isSpeaking && !interrupt) {
+        return;
+    }
+    
     const utterance = new SpeechSynthesisUtterance(text);
-    
-    // Set properties
     utterance.rate = gameState.speechRate;
-    utterance.onboundary = (event) => {
-        // Keep track of speaking progress
-        if (event.name === 'word') {
-            gameState.lastSpokenWord = event.charIndex;
-        }
-    };
     
-    utterance.onend = () => {
-        gameState.isSpeaking = false;
-    };
-    
-    // Cancel any current speech
     if (interrupt) {
         gameState.speechSynth.cancel();
     }
     
-    // Wait if already speaking and not interrupting
-    if (gameState.speechSynth.speaking && !interrupt) {
-        setTimeout(() => speak(text, interrupt), 500);
-        return;
-    }
+    utterance.onend = () => {
+        gameState.isSpeaking = false;
+    };
     
     gameState.isSpeaking = true;
     gameState.speechUtterance = utterance;
@@ -651,17 +668,10 @@ function openSettingsMenu() {
     const menu = document.getElementById('settings-menu');
     menu.hidden = false;
     document.body.classList.add('menu-open');
-    
-    // Save which element had focus
     gameState.settingsFocusedElement = document.activeElement;
-    
-    // Focus the close button
     document.getElementById('close-settings').focus();
-    
-    // Speak menu instructions
     speak("Settings menu opened. Current speech rate is " + gameState.speechRate.toFixed(1) + 
-          ". Use up and down arrows to adjust rate. Changes preview immediately. " +
-          "Press Enter to confirm your selection, or Escape to close.", true);
+          ". Use up and down arrows to adjust rate. Press Enter to close.", true);
 }
 
 function closeSettingsMenu() {
@@ -669,24 +679,16 @@ function closeSettingsMenu() {
     const menu = document.getElementById('settings-menu');
     menu.hidden = true;
     document.body.classList.remove('menu-open');
-    
-    // Restore focus to previous element
     if (gameState.settingsFocusedElement) {
         gameState.settingsFocusedElement.focus();
     }
-    
-    speak("Settings menu closed. Current speech rate is " + gameState.speechRate.toFixed(1));
+    speak("Settings menu closed.");
 }
 
 function adjustSpeechRate(change) {
-    // Change rate by 0.1 increments, clamp between 0.5 and 2.0
-    gameState.speechRate = Math.min(Math.max(gameState.speechRate + change, 0.5), 2.5);
-    
-    // Update display
+    gameState.speechRate = Math.min(Math.max(gameState.speechRate + change, 0.5), 4);
     document.getElementById('rate-value').textContent = gameState.speechRate.toFixed(1);
-    
-    // Preview the new rate
-    speak("Rate preview: " + gameState.speechRate.toFixed(1), true);
+    speak("Rate set to " + gameState.speechRate.toFixed(1), true);
 }
 
 // Set up settings menu
@@ -698,11 +700,9 @@ function setupSettingsMenu() {
     
     settingsBtn.addEventListener('click', openSettingsMenu);
     closeBtn.addEventListener('click', closeSettingsMenu);
-    
     increaseBtn.addEventListener('click', () => adjustSpeechRate(0.1));
     decreaseBtn.addEventListener('click', () => adjustSpeechRate(-0.1));
     
-    // Keyboard navigation in settings
     document.getElementById('settings-menu').addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             closeSettingsMenu();
@@ -713,62 +713,94 @@ function setupSettingsMenu() {
         } else if (e.key === 'ArrowDown') {
             adjustSpeechRate(-0.1);
             e.preventDefault();
-        } else if (e.key === 'Enter') {
-            speak("Speech rate set to " + gameState.speechRate.toFixed(1));
-            e.preventDefault();
         }
     });
 }
 
-// Set up keyboard controls
 function setupControls() {
     const gameContainer = document.getElementById('game-container');
     
     gameContainer.addEventListener('keydown', (e) => {
-        // Don't process keys when settings menu is open
         if (gameState.isSettingsOpen) return;
         
         const scene = gameState.scenes[gameState.currentScene];
+        if (!scene) return;
         
         switch (e.key) {
             case 'ArrowDown':
                 e.preventDefault();
-                if (scene.choices.length > 0) {
+                if (gameState.choicesLocked) {
+                    return;
+                }
+                if (scene.choices && scene.choices.length > 0) {
+                    // Play hover sound before changing selection
+                    if (gameState.audioEnabled) {
+                        choiceHoverSound.currentTime = 0; // Rewind sound if already playing
+                        choiceHoverSound.play().catch(e => console.log("Hover sound error:", e));
+                    }
+                    
                     gameState.selectedChoice = Math.min(gameState.selectedChoice + 1, scene.choices.length - 1);
                     updateSelectedChoice();
-                    speak(scene.choices[gameState.selectedChoice].text);
+                    readCurrentChoice();
                 }
                 break;
                 
             case 'ArrowUp':
                 e.preventDefault();
-                if (scene.choices.length > 0) {
+                if (gameState.choicesLocked) {
+                    return;
+                }
+                if (scene.choices && scene.choices.length > 0) {
+                    // Play hover sound before changing selection
+                    if (gameState.audioEnabled) {
+                        choiceHoverSound.currentTime = 0;
+                        choiceHoverSound.play().catch(e => console.log("Hover sound error:", e));
+                    }
+                    
                     gameState.selectedChoice = Math.max(gameState.selectedChoice - 1, 0);
                     updateSelectedChoice();
-                    speak(scene.choices[gameState.selectedChoice].text);
+                    readCurrentChoice();
+                }
+                break;
+                
+            case 'ArrowRight':
+                // Skip current narration
+                e.preventDefault();
+                gameState.speechSynth.cancel();
+                gameState.isSpeaking = false;
+                
+                if (!gameState.sceneTextFinished) {
+                    // If scene text was playing, mark it as finished and unlock choices
+                    gameState.sceneTextFinished = true;
+                    gameState.choicesLocked = false;
+                    document.getElementById('choices').classList.remove('choices-locked');
+                    
+                    if (scene.choices && scene.choices.length > 0) {
+                        readCurrentChoice();
+                    }
                 }
                 break;
                 
             case 'Enter':
                 e.preventDefault();
-                if (scene.choices.length > 0) {
+                if (gameState.choicesLocked) {
+                    return;
+                }
+                if (scene.choices && scene.choices.length > 0 && 
+                    gameState.selectedChoice < scene.choices.length) {
                     const nextScene = scene.choices[gameState.selectedChoice].next;
-                    displayScene(nextScene);
+                    if (nextScene) {
+                        displayScene(nextScene);
+                    }
                 }
                 break;
                 
             case ' ':
                 e.preventDefault();
-                // Repeat current scene text
-                speak(scene.text);
-                if (scene.choices.length > 0) {
-                    setTimeout(() => {
-                        speak("Your choices are:");
-                        setTimeout(() => {
-                            speak(scene.choices[gameState.selectedChoice].text);
-                        }, 300);
-                    }, calculateSpeechDuration(scene.text));
+                if (!gameState.sceneTextFinished) {
+                    return;
                 }
+                speak(scene.text);
                 break;
                 
             case 's':
@@ -795,4 +827,4 @@ function updateSelectedChoice() {
 }
 
 // Initialize the game when the page loads
-window.onload = initGame;
+window.addEventListener('DOMContentLoaded', initGame);
