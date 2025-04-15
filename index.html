@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessible Text Adventure</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<body>
+    <div id="start-screen" class="start-screen">
+        <div class="start-content">
+            <h1>LOCKED IN ORBIT</h1>
+            <p>Click this message to begin</p>
+            <p class="small-note">(Audio requires interaction)</p>
+        </div>
+    </div>
+    <div class="game-container" tabindex="0" id="game-container">
+        <div id="scene-text" class="scene-text" aria-live="polite"></div>
+        <div id="choices" class="choices-container" role="menu"></div>
+    </div>
+    <div class="controls">
+        <p>Controls: ↑/↓ arrows to choose, Enter to select, Space to repeat, → arrow to skip scene text.</p>
+    </div>
+    <!-- Add this button near the game controls -->
+    <button id="settings-btn" class="settings-btn" aria-label="Open settings menu">Settings (S)</button>
+    <div id="settings-menu" class="settings-menu" hidden role="menu">
+    <h2>Accessibility Settings</h2>
+    <div class="setting">
+        <label for="speech-rate">Speech Rate:</label>
+        <div class="rate-value" id="rate-value">1.0</div>
+        <button id="decrease-rate" aria-label="Decrease speech rate">-</button>
+        <button id="increase-rate" aria-label="Increase speech rate">+</button>
+    </div>
+    <button id="close-settings" class="close-btn">Close Settings (Esc)</button>
+</div>
+    <script src="game.js"></script>
+</body>
+</html>

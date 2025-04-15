@@ -1,0 +1,202 @@
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    max-width: 1200px;
+    font-size: 32px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #000;
+    color: #FFF;
+}
+
+.game-container {
+    background-color: #000;
+    padding: 24px;
+    border-radius: 10px;
+    box-shadow: 0 0 8px #FFF;
+    outline: none;
+}
+
+.scene-text {
+    margin-bottom: 24px;
+    min-height: 120px;
+}
+
+.choices-container {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.choice {
+    padding: 14px;
+    border: 2px solid #FFF;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #111;
+    color: #FFF;
+}
+
+.choice:hover,
+.choice:focus,
+.choice.selected {
+    background-color: #FFD700;
+    color: #000;
+    outline: 3px solid #FFD700;
+    outline-offset: 4px;
+}
+
+.controls {
+    margin-top: 24px;
+    font-size: 1em;
+    color: #CCC;
+    text-align: center;
+}
+
+/* Settings button */
+.settings-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 14px 20px;
+    background-color: #FFD700;
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.settings-btn:hover,
+.settings-btn:focus {
+    background-color: #FFC300;
+    outline: 3px solid #FFF;
+}
+
+/* Settings menu */
+.settings-menu {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #111;
+    padding: 24px;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(255,255,255,0.3);
+    z-index: 100;
+    width: 90%;
+    max-width: 520px;
+    color: #FFF;
+}
+
+.settings-menu h2 {
+    margin-top: 0;
+    color: #FFD700;
+}
+
+.setting {
+    margin: 24px 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.rate-value {
+    min-width: 44px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.close-btn {
+    display: block;
+    margin-top: 24px;
+    padding: 12px 20px;
+    background-color: #222;
+    border: 2px solid #FFF;
+    border-radius: 6px;
+    color: #FFF;
+    cursor: pointer;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    background-color: #333;
+    outline: 2px solid #FFD700;
+}
+
+/* Disable background scrolling when settings menu is open */
+body.menu-open {
+    overflow: hidden;
+}
+
+body.menu-open::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.75);
+    z-index: 99;
+} 
+
+.choices-locked {
+    position: relative;
+}
+.choices-locked::after {
+    content: "LOCKED - SCENE TEXT PLAYING";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+}
+
+
+.start-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.start-content {
+    text-align: center;
+    padding: 40px;
+    border: 3px solid #FFD700;
+    background-color: #111;
+    color: white;
+    max-width: 600px;
+}
+
+.start-content h1 {
+    color: #FFD700;
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+.start-content p {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.small-note {
+    font-size: 1em;
+    color: #999;
+}
