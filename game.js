@@ -29,7 +29,7 @@ const gameState = {
     selectedChoice: 0,
     speechSynth: window.speechSynthesis,
     speechUtterance: null,
-    speechRate: 2.2,
+    speechRate: 5,
     isSettingsOpen: false,
     settingsFocusedElement: null,
     isSpeaking: false,
@@ -850,7 +850,7 @@ function closeSettingsMenu() {
     speak("Settings menu closed.");
 }
 function adjustSpeechRate(change) {
-    gameState.speechRate = Math.min(Math.max(gameState.speechRate + change, 0.5), 4);
+    gameState.speechRate = Math.min(Math.max(gameState.speechRate + change, 0.5), 10);
     document.getElementById('rate-value').textContent = gameState.speechRate.toFixed(1);
     speak("Rate set to " + gameState.speechRate.toFixed(1), true);
 }
