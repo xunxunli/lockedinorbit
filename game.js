@@ -196,6 +196,105 @@ const gameState = {
 {"text": "Choice 3: Don’t take the risk speaking with him - run.", "next": "crew_a13"},
 ]
 },
+"crew_a11": {
+"text": "You nod. Harlan relaxes just slightly. He says, “Good. Stay close.” He leads you through a flickering corridor. The lights buzz. The air feels heavier. He says, “The AI locked us down. But I know a way around. We just need to get to maintenance.” Up ahead, a crawl tunnel. Jagged metal around the edges. He says, “I’ll go first. You follow.”",
+"choices": [
+{"text": "Choice 1: Follow him into the tunnel.", "next": "crew_a11a"},
+{"text": "Choice 2: Ask him what happened on the ship.", "next": "crew_a11b"},
+]
+},
+"crew_a11b": {
+"text": "You ask, “Has anyone made it out?” Harlan pauses. He says, “They didn’t listen. You’re smarter.” He crawls in without another word.",
+"choices": [
+{"text": "Choice 1: Follow him.", "next": "crew_a11b1"},
+{"text": "Choice 2: Turn and look for another path.", "next": "crew_a11b2"},
+]
+},
+"crew_a11b2": {
+"text": "You back away from the tunnel. You say, “I’ll find my own way.” Harlan doesn’t argue. He says, “You won’t last long out here.” You take off down the hall. Red emergency lights flash overhead. You pass a sealed medbay, then a broken bulkhead. Ahead, a door marked “Escape Access.” Suddenly—footsteps. Fast. Coming up behind you.",
+"choices": [
+{"text": "Choice 1: Hide in the medbay.", "next": "crew_a11b21"},
+{"text": "Choice 2: Sprint for the escape access door.", "next": "escape_intro"},
+]
+},
+"crew_a11b21": {
+"text": "You slip through the medbay door just before it finishes sliding shut. The room is dim, full of overturned carts and shattered glass. A surgical table sits in the center, and old blood streaks the floor. You crouch behind a cabinet, holding your breath. The footsteps stop right outside. Then a low voice, muffled through the wall. Harlan says, “I know you went this way.” Silence. Then—the door creaks open.",
+"choices": [
+{"text": "Choice 1: Look for a weapon.", "next": "crew_a11b211"},
+{"text": "Choice 2: Continue hiding", "next": "crew_a11b212"},
+]
+},
+"crew_a11b212": {
+"text": "You stay still, barely breathing. Harlan steps inside. Slow. Careful. He says, “I really hoped you’d come with me. But now…” You don’t see it coming. Everything goes dark. GAME OVER.",
+"choices": [
+{"text": "Choice 1: Restart game.", "next": "start"},
+]
+},
+"crew_a11b211": {
+"text": "Your fingers feel along the counter. You find something cold—a surgical tool. Maybe a bone saw. It’s heavy. Not ideal, but better than nothing. Footsteps draw closer. Harlan says, “Last chance. I don’t want to hurt you.”",
+"choices": [
+{"text": "Choice 1: Stay hidden and wait for the right moment.", "next": "crew_a11b2111"},
+{"text": "Choice 2: Leap out and attack him first.", "next": "crew_a11b2112"},
+{"text": "Choice 3: Make a break for it.", "next": "crew_a11b2113"},
+]
+},
+"crew_a11b2113": {
+"text": "You run. The door hisses open and you bolt through. But Harlan is faster. You make it six steps before he grabs your collar and pulls you back hard. He says, “Don’t make me do this.” He does anyway. GAME OVER.",
+"choices": [
+{"text": "Choice 1: Restart game.", "next": "start"},
+]
+},
+"crew_a11b2111": {
+"text": "You grip the handle tight, but you wait too long. A shadow falls across the cabinet. Harlan says, “You chose wrong.” You don’t get another chance. GAME OVER.",
+"choices": [
+{"text": "Choice 1: Restart game.", "next": "start"},
+]
+},
+"crew_a11b2112": {
+"text": "You burst from your hiding spot and swing. The blade catches his arm. He stumbles back with a sharp hiss. You don’t wait—you run, slamming your palm on the medbay door control. It seals behind you. You’re bleeding, but you’re alive. Ahead, the hallway to Escape Access flickers in red light.",
+"choices": [
+{"text": "Choice 1: Move to the escape pods.", "next": "escape_intro"},
+]
+},
+"crew_a11b1": {
+"text": "You drop to your hands and knees and crawl in after him. The tunnel is narrow, full of dust and old cables. Harlan moves fast, too fast for someone injured. He says, “There’s a control room up ahead. We reroute power there. AI doesn’t monitor it.” You don’t answer. Something feels off. He stops. He says, “I need you to tell me the code to open the hatch. The AI still trusts your ID.”",
+"choices": [
+{"text": "Choice 1: Give him your code.", "next": "crew_a11a1"},
+{"text": "Choice 2: Refuse—say you’ll enter it yourself.", "next": "crew_a11a2"},
+]
+},
+"crew_a11a": {
+"text": "You crawl behind him. The space is tight, the air stale. He stops at a panel. He says, “There's a drop into storage. Give me your access code. It won’t open otherwise.” Choice Prompt:",
+"choices": [
+{"text": "Choice 1: Give him your code.", "next": "crew_a11a1"},
+{"text": "Choice 2: Refuse—say you’ll enter it yourself.", "next": "crew_a11a2"},
+]
+},
+"crew_a11a2": {
+"text": "You move forward, reaching for the panel. Harlan blocks you. He says, “Don’t make this hard.”",
+"choices": [
+{"text": "Choice 1: Fight him.", "next": "crew_a11a21"},
+{"text": "Choice 2: Trick him— make a horrified face at something supposedly behind him.", "next": "crew_a11a22"},
+]
+},
+"crew_a11a22": {
+"text": "You make a horrified face, whispering to Harlan cautiously, “Behind you.” He flinches, just enough. You slam the hatch shut and lock it from your side. His fists pound the metal as you run. The corridor ahead says: ESCAPE POD ACCESS – 300m",
+"choices": [
+{"text": "Choice 1: Move to the escape pods.", "next": "escape_intro"},
+]
+},
+"crew_a11a21": {
+"text": "You swing with your elbow. He slashes, but you catch his wrist and shove hard. He slips. Hits the wall. Hard. You grab the scalpel. He doesn’t get back up. You open the hatch and climb down to the escape pods.",
+"choices": [
+{"text": "Choice 1: Move to the escape pods.", "next": "escape_intro"},
+]
+},
+"crew_a11a1": {
+"text": "You whisper the code. He says, “Thanks.” A moment later, you feel it—a sharp pressure in your side. His voice is calm. He says, “Can’t let you leave. You’d undo everything.” GAME OVER.",
+"choices": [
+{"text": "Choice 1: Restart game.", "next": "start"},
+]
+},
 "crew_a2": {
 "text": "You press the power button. The communicator resists for a second, then shuts down with a small beep. The room is silent again, except for the hum of failing lights. There’s movement near the bunks. A shadow detaches itself from the darkness, a man, limping, his jumpsuit torn. Harlan. 'You shut it off.' His voice is hoarse, measured. 'Smart. They're listening.' He glances toward the hallway, fingers tightening around something metallic at his side. 'If you're trying to get out of here, we need to move. Fast.'",
 "choices": [
@@ -248,41 +347,6 @@ const gameState = {
 "choices": [
 {"text": "Choice 1: Grab a makeshift weapon and swing at him.", "next": "crew_111"},
 {"text": "Choice 2: Make a run for it.", "next": "crew_a13"},
-]
-},
-"crew_a11": {
-"text": "You nod slowly. Harlan gives a short breath, like he's been holding it. He glances toward the hallway. A dim red light blinks overhead as he moves. You follow him.",
-"choices": [
-{"text": "Choice 1: Follow Harlan quietly through the hallway.", "next": "crew_a11a"},
-{"text": "Choice 2: Ask him what happened on the ship.", "next": "crew_a11b"},
-]
-},
-"crew_a11a": {
-"text": "The hallway is cold and still. Panels flicker on and off. Harlan moves quickly, keeping close to the walls. He stops at a sealed door labeled MAINTENANCE. A keypad flashes red.",
-"choices": [
-{"text": "Choice 1: Ask if he knows the code.", "next": "crew_a11a1"},
-{"text": "Choice 2: Try to override the lock yourself.", "next": "crew_a11a2"},
-]
-},
-"crew_a11a1": {
-"text": "Harlan types a short string of numbers. The keypad beeps, then flashes green. The door slides open with a sharp hiss, revealing a tight maintenance tunnel filled with cables and dim red lights.",
-"choices": [
-{"text": "Choice 1: Enter the tunnel behind him.", "next": "crew_a11a1a"},
-{"text": "Choice 2: Hesitate. Something feels off.", "next": "crew_a11a1b"},
-]
-},
-"crew_a11a1a": {
-"text": "You crawl in after Harlan. The air is hot, filled with the smell of oil and burnt rubber. Sparks crackle from a junction box. Harlan moves quickly, like he knows exactly where he's going.",
-"choices": [
-{"text": "Choice 1: Keep following him.", "next": "crew_a11a1a1"},
-{"text": "Choice 2: Ask where this tunnel leads.", "next": "crew_a11a1a2"},
-]
-},
-"crew_a11a1a1": {
-"text": "You keep crawling. Suddenly, Harlan stops. He turns, blocking your path. His voice is quiet and cold. He says, I need to know you're not infected. Tell me something only a real crew member would know.",
-"choices": [
-{"text": "Choice 1: Try to answer honestly.", "next": "crew_a11a1a1a"},
-{"text": "Choice 2: Refuse. Tell him you don't remember.", "next": "crew_a11a1a1b"},
 ]
 },
 "crew_a12": {
@@ -452,7 +516,7 @@ const gameState = {
 ]
 },
 "vents_intro": {
-"text": "The first sign comes as a distant metallic scratching, echoing through the ventilation system. It starts faint just on the edge of hearing then grows clearer. scritch-scritch-scratchThe sound moves with purpose, following the path of the ducts overhead. Whatever's making it seems to pause occasionally, as if listening or searching. The rhythm is wrong for maintenance bots. Too erratic. Too... alive.The scratching stops directly above. In the sudden silence, you can hear the soft whir of servo motors and the quiet ping of cooling metal. Then, ever so slightly, the vent cover trembles.",
+"text": "The first sign comes as a distant metallic scratching, echoing through the ventilation system. It starts faint just on the edge of hearing then grows clearer. scritch-scritch-scratch. The sound moves with purpose, following the path of the ducts overhead. Whatever's making it seems to pause occasionally, as if listening or searching. The rhythm is wrong for maintenance bots. Too erratic. Too... alive.The scratching stops directly above. In the sudden silence, you can hear the soft whir of servo motors and the quiet ping of cooling metal. Then, ever so slightly, the vent cover trembles.",
 "choices": [
 {"text": "Choice 1: Hold your breath and listen - every detail could matter", "next": "Stop_and_listen_1"},
 {"text": "Choice 2: Move quickly but quietly into a defensive position", "next": "Ready_defensive_position_1"},
@@ -460,7 +524,7 @@ const gameState = {
 ]
 },
 "Stop_and_listen_1": {
-"text": "You freeze in place, straining to track the sounds above. The metallic scratching traces a deliberate path through the ventilation system—first forward, then branching left toward the maintenance bay. The pattern seems almost... coordinated.Your concentration breaks as Mason's voice cuts through the silence, barely a whisper: 'Wait... did you hear that?' A second set of scratches echoes from a different section of the vents, overlapping with the first. Then a third.The sounds converge and separate in an unsettling dance overhead, like a well-practiced routine. Mason's face goes pale. 'They're... they're working together.'",
+"text": "You freeze in place, straining to track the sounds above. The metallic scratching traces a deliberate path through the ventilation system—first forward, then branching left toward the maintenance bay. The pattern seems almost... coordinated. Your concentration breaks as Mason's voice cuts through the silence, barely a whisper: 'Wait... did you hear that?' A second set of scratches echoes from a different section of the vents, overlapping with the first. Then a third.The sounds converge and separate in an unsettling dance overhead, like a well-practiced routine. Mason's face goes pale. 'They're... they're working together.'",
 "choices": [
 {"text": "Choice 1: Let out an involuntary scream as realization hits", "next": "Scream_1"},
 {"text": "Choice 2: There's more of them... they're hunting in packs", "next": "More_1"},
@@ -478,6 +542,7 @@ const gameState = {
 "choices": [
 {"text": "Choice 1: Sprint for Engineering - the heavy equipment might give us a fighting chance", "next": "Run_to_Engineering_Bay"},
 {"text": "Choice 2: Make a break for Security - we need real weapons", "next": "Run_to_Security_Station"},
+{"text": "Choice 3: Muster all your strength and bolt towards the escape pods.", "next": "escape_intro"},
 ]
 },
 "Run_to_Engineering_Bay": {
@@ -539,6 +604,7 @@ const gameState = {
 "text": "Your footsteps thunder down the metal corridors. The evacuation siren masks some of the noise, but not enough. Behind you, mechanical whirring grows closer. A quick glance back confirms your fear—two Sentinels, their red sensors fixed on your position. They're closing in, moving faster than you thought possible. The exit is still so far...",
 "choices": [
 {"text": "Choice 1: You try your best to move quickly but quietly into a defensive position", "next": "Ready_defensive_position_1"},
+{"text": "Choice 2: Muster all your strength and bolt towards the escape pods.", "next": "escape_intro"},
 ]
 },
 "Cornered": {
@@ -546,6 +612,7 @@ const gameState = {
 "choices": [
 {"text": "Choice 1: Your back pressed against cold steel, you spot a familiar service hatch—Engineering Bay access. ", "next": "Run_to_Engineering_Bay"},
 {"text": "Choice 2: Your mind races through options, precious seconds ticking away as indecision paralyzes you.", "next": "Dead_hesitate"},
+{"text": "Choice 3: Muster all your strength and bolt towards the escape pods.", "next": "escape_intro"},
 ]
 },
 "Dead_hesitate": {
@@ -709,7 +776,7 @@ function openSettingsMenu() {
     gameState.settingsFocusedElement = document.activeElement;
     document.getElementById('close-settings').focus();
     speak("Settings menu opened. Current speech rate is " + gameState.speechRate.toFixed(1) + 
-          ". Use plus and minus buttons or up and down arrows to adjust rate. Press Enter to close.", true);
+          ". Use up and down arrow keys to adjust rate. Press Enter to close.", true);
 }
 
 function closeSettingsMenu() {
