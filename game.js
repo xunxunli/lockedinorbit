@@ -1,7 +1,7 @@
 const sceneTransitionSound = new Audio("sounds/scene-transition.wav");
 sceneTransitionSound.volume = 0.3;
 const choiceHoverSound = new Audio("sounds/choice-hover.wav"); // Add this sound file
-choiceHoverSound.volume = 0.8; // Adjust volume as needed
+choiceHoverSound.volume = 0.6; // Adjust volume as needed
 
 // Audio context workaround for Chrome
 let audioContext = null;
@@ -36,6 +36,10 @@ const gameState = {
     lastSpokenWord: 0,
     sceneTextFinished: false,
     choicesLocked: true,
+    pausedUtterance: null,
+    pausedText: "",
+    pausedTextPosition: 0,
+    isTextPaused: false,
     audioEnabled: true, // Add this flag for sound control
     scenes: {
         "welcome": {
@@ -121,7 +125,7 @@ const gameState = {
 ]
 },
 "control_hide_2": {
-"text": "You don’t move. You don’t breathe. The thing’s footsteps are slow, deliberate. It pauses. Sniffs the air. The console above you creaks as it leans over, its weight making the metal groan. A drop of something warm and thick lands on your shoulder. Then— A hand, slick with oil and too many fingers, curls around the edge of the console. You close your eyes as you feel something drag you into the dark. GAME OVER.",
+"text": "You don’t move. You don’t breathe. The thing’s footsteps are slow, deliberate. It pauses. Sniffs the air. The console above you creaks as it leans over, its weight making the metal groan. A drop of something warm and thick lands on your shoulder. Then— A hand, slick with oil and too many fingers, curls around the edge of the console. You close your eyes as you feel something drag you into the dark.",
 "choices": [
 {"text": "Restart game.", "next": "start"},
 ]
@@ -370,7 +374,7 @@ const gameState = {
 ]
 },
 "escape_intro": {
-"text": "(sound effect - doors open, footsteps echoing in a metal hallway). You reach the pod bay. The doors flash red—emergency lockdown engaged. The ship's AI chimes in: 'Escape pods are unavailable. Please go to the safe room'. Something seems off-putting about this AI. ",
+"text": "You go to the pod bay. The doors flash red—emergency lockdown engaged. The ship's AI chimes in: 'Escape pods are unavailable. Please go to the safe room'. Something seems off-putting about this AI. ",
 "choices": [
 {"text": "Choice 1: Try to override the disabled lock for the escape pods. You have a fishy feeling about this AI system. ", "next": "override_intro"},
 {"text": "Choice 2: Ask the AI system for help with overriding the escape pod lock. The AI system chimes in 'You can certainly try to decipher the escape pod code, but I am only giving you three hints. Going to the safe room is your best bet'", "next": "hint_intro"},
@@ -421,7 +425,7 @@ const gameState = {
 ]
 },
 "override_two": {
-"text": "(sound effect for incorrect answer). 'That answer is incorrect, WARNING, your next guess is your last one. A failed guess could cause a system shutdown. Proceed?'",
+"text": "That answer is incorrect, WARNING, your next guess is your last one. A failed guess could cause a system shutdown. Proceed?'",
 "choices": [
 {"text": "Choice 1: The 'Spaceship' Option looks like the correct one! You choose that.", "next": "override_ending"},
 {"text": "Choice 2: The 'Void' Option looks like the correct one! You choose that.", "next": "override_ending"},
@@ -430,114 +434,131 @@ const gameState = {
 ]
 },
 "correct_code": {
-"text": "(sound effect for correct answer). 'Congratulations! That answer is correct! Please proceed to the escape pods and head for your home plant!' YOU WIN! ",
+"text": "Congratulations! That answer is correct! Please proceed to the escape pods and head for your home plant!' YOU WIN! ",
 "choices": [
 {"text": "Choice 1: Experience other paths and restart game.", "next": "start"},
 ]
 },
 "override_ending": {
-"text": "(sound effect for incorrect answer). 'That answer is... incorrect' (sound effects of system shutting down). The entire system shuts down and everything goes dark. Suddenly you feel the ship start to crash and then everything goes black. GAME OVER.",
+"text": "That answer is... incorrect' The entire system shuts down and everything goes dark. Suddenly you feel the ship start to crash and then everything goes black. GAME OVER.",
 "choices": [
 {"text": "Choice 1: Restart game.", "next": "start"},
+]
+},
+"saferoom_ending": {
+"text": "You go to the safe room. The door immediately locks and the room explodes. GAME OVER!",
+"choices": [
+{"text": "Restart game.", "next": "start"},
 ]
 },
 "vents_intro": {
 "text": "The first sign comes as a distant metallic scratching, echoing through the ventilation system. It starts faint just on the edge of hearing then grows clearer. scritch-scritch-scratchThe sound moves with purpose, following the path of the ducts overhead. Whatever's making it seems to pause occasionally, as if listening or searching. The rhythm is wrong for maintenance bots. Too erratic. Too... alive.The scratching stops directly above. In the sudden silence, you can hear the soft whir of servo motors and the quiet ping of cooling metal. Then, ever so slightly, the vent cover trembles.",
 "choices": [
-{"text": "Hold your breath and listen - every detail could matter", "next": "Stop_and_listen_1"},
-{"text": "Move quickly but quietly into a defensive position", "next": "Ready_defensive_position_1"},
-{"text": "Signal for immediate evacuation while there's still time", "next": "Begin_immediate_evacuation_1"},
+{"text": "Choice 1: Hold your breath and listen - every detail could matter", "next": "Stop_and_listen_1"},
+{"text": "Choice 2: Move quickly but quietly into a defensive position", "next": "Ready_defensive_position_1"},
+{"text": "Choice 3: Signal for immediate evacuation while there's still time", "next": "Begin_immediate_evacuation_1"},
 ]
 },
 "Stop_and_listen_1": {
 "text": "You freeze in place, straining to track the sounds above. The metallic scratching traces a deliberate path through the ventilation system—first forward, then branching left toward the maintenance bay. The pattern seems almost... coordinated.Your concentration breaks as Mason's voice cuts through the silence, barely a whisper: 'Wait... did you hear that?' A second set of scratches echoes from a different section of the vents, overlapping with the first. Then a third.The sounds converge and separate in an unsettling dance overhead, like a well-practiced routine. Mason's face goes pale. 'They're... they're working together.'",
 "choices": [
-{"text": "Let out an involuntary scream as realization hits", "next": "Scream_1"},
-{"text": "There's more of them... they're hunting in packs", "next": "More_1"},
+{"text": "Choice 1: Let out an involuntary scream as realization hits", "next": "Scream_1"},
+{"text": "Choice 2: There's more of them... they're hunting in packs", "next": "More_1"},
 ]
 },
 "Scream_1": {
 "text": "Your scream pierces the silence—and everything happens at once. A deafening screech of tearing metal answers from above as claws rip through the vent cover like paper. In the flashing emergency lights, you catch glimpses of gleaming metal and too many limbs moving too fast. The creature drops from the ceiling in a fluid, predatory motion. Servos whir and joints click as it rights itself, its frame unfolding like some terrible mechanical spider. Multiple sensor arrays lock onto your position, glowing a deep, pulsing red. The distance between you and it is closing fast—much too fast. Each step of its blade-like legs leaves deep scratches in the metal floor. There's no time to think, only react.",
 "choices": [
-{"text": "Move quickly but quietly into a defensive position", "next": "Ready_defensive_position_1"},
-{"text": "Signal for immediate evacuation while there's still time", "next": "Begin_immediate_evacuation_1"},
+{"text": "Choice 1: Move quickly but quietly into a defensive position", "next": "Ready_defensive_position_1"},
+{"text": "Choice 2: Signal for immediate evacuation while there's still time", "next": "Begin_immediate_evacuation_1"},
 ]
 },
 "Ready_defensive_position_1": {
 "text": "You quickly organize your team—Mason barricades the door with storage crates while Sarah activates the emergency shields over the vents. The hydraulic plates slide into place with a heavy clang. You grab what you can: a fallen security baton still humming with power and a maintenance torch. Not much, but better than nothing. BANG The blast shields shudder. The creatures are testing them, hitting multiple points at once. Each impact leaves deeper dents. You have moments, at best.",
 "choices": [
-{"text": "Sprint for Engineering - the heavy equipment might give us a fighting chance", "next": "Run_to_Engineering_Bay"},
-{"text": "Make a break for Security - we need real weapons", "next": "Run_to_Security_Station"},
+{"text": "Choice 1: Sprint for Engineering - the heavy equipment might give us a fighting chance", "next": "Run_to_Engineering_Bay"},
+{"text": "Choice 2: Make a break for Security - we need real weapons", "next": "Run_to_Security_Station"},
 ]
 },
 "Run_to_Engineering_Bay": {
 "text": "The Engineering Bay doors hiss shut behind you. Tools line the walls, each with their own risks and advantages. Time to choose, and choose fast—metallic scratching echoes from somewhere in the ventilation above. The laser welder sits ready in its charging station, beam fully powered. The plasma cutter's fuel gauge reads half-full, its safety lock still engaged. And there, mounted on the workbench, the industrial hydraulic wrench gleams dully in the emergency lighting.",
 "choices": [
-{"text": "Laser Welder - Steady power, but the bright beam will give away your position", "next": "Laser_Welder"},
-{"text": "Plasma Cutter - Devastating but loud, with limited fuel reserves", "next": "Plasma_Cutter"},
-{"text": "Hydraulic Wrench - Heavy but reliable, and can seal doors behind you", "next": "Hydrawlic_Wrench_ending"},
+{"text": "Choice 1: Laser Welder - Steady power, but the bright beam will give away your position", "next": "Laser_Welder"},
+{"text": "Choice 2: Plasma Cutter - Devastating but loud, with limited fuel reserves", "next": "Plasma_Cutter"},
+{"text": "Choice 3: Hydraulic Wrench - Heavy but reliable, and can seal doors behind you", "next": "Hydrawlic_Wrench_ending"},
+]
+},
+"Plasma_Cutter": {
+"text": "The plasma cutter roars to life, its blue beam slicing through the darkness. The creature lunges—your first shot catches its midsection, melting through armor with a deafening crack. It screams, synthetic flesh burning. You fire again, watching the fuel gauge drop critically low. One final shot. The creature rises, and you take your chance—the plasma beam punches through its core. It collapses in a smoking heap, but the echoing sounds of your fight are already drawing attention from the shadows.",
+"choices": [
+{"text": "Choice 1: Grab the net - this might be your only chance to capture it", "next": "Grab_net"},
+{"text": "Choice 2: Leave it - don't risk getting closer", "next": "Leave_net"},
 ]
 },
 "Hydrawlic_Wrench_ending": {
-"text": "The hydraulic wrench feels reassuringly solid in your hands. Its weight might slow you down, but at least you can seal doors behind you— A sharp CRACK splits the air. Too late, you look up. The vent cover dangles by a single bolt, already torn open. In the darkness above, multiple red sensor arrays blink to life. The creatures were here all along, waiting. Metal limbs unfold from the ceiling in a horrifying cascade. The wrench drops from your hands, too slow, too heavy to matter now. The last thing you see is a blur of chrome and crimson lights. [TERMINAL STATUS: OFFLINE](how to teminate)",
+"text": "The hydraulic wrench feels reassuringly solid in your hands. Its weight might slow you down, but at least you can seal doors behind you— A sharp CRACK splits the air. Too late, you look up. The vent cover dangles by a single bolt, already torn open. In the darkness above, multiple red sensor arrays blink to life. The creatures were here all along, waiting. Metal limbs unfold from the ceiling in a horrifying cascade. The wrench drops from your hands, too slow, too heavy to matter now. The last thing you see is a blur of chrome and crimson lights. [TERMINAL STATUS: OFFLINE] GAME OVER.",
 "choices": [
+{"text": "Choice 1: Restart game.", "next": "start"},
 ]
 },
 "Laser_Welder": {
 "text": "The welder's beam cuts through the darkness—first shot catches the creature mid-leap, scoring its metallic shell. It recoils with an electronic shriek. Second blast hits something vital—sparks cascade from its joints, but it's still moving. You squeeze the trigger again. Nothing. Power indicator flashes red. Empty. Through the fading sparks, you spot a heavy industrial net tangled in the nearby workstation. The creature writhes on the floor, damaged but definitely not destroyed. Its movements are erratic now, but those claws still look deadly.",
 "choices": [
-{"text": "Grab the net - this might be your only chance to capture it", "next": "Grab_net"},
-{"text": "Leave it - don't risk getting closer", "next": "Leave_net"},
+{"text": "Choice 1: Grab the net - this might be your only chance to capture it", "next": "Grab_net"},
+{"text": "Choice 2: Leave it - don't risk getting closer", "next": "Leave_net"},
 ]
 },
 "Grab_net": {
-"text": "Your hands find the net and you throw it with desperate force. The creature thrashes, becoming more entangled with each movement. As it weakens, you get your first clear look: A Sentinel. The squid-like machine's multiple arms end in various tools and weapons, its red sensor array still pulsing weakly. This shouldn't be possible—these were just stories, warnings from the old war. But here it is, proof that someone has been recreating the machines that nearly ended humanity. (The question isn't just who—but how many more are there? - can be more - wait for season 2) [TERMINAL STATUS: OFFLINE](how to teminate)",
+"text": "Your hands find the net and you throw it with desperate force. The creature thrashes, becoming more entangled with each movement. As it weakens, you get your first clear look: A Sentinel. The squid-like machine's multiple arms end in various tools and weapons, its red sensor array still pulsing weakly. This shouldn't be possible—these were just stories, warnings from the old war. But here it is, proof that someone has been recreating the machines that nearly ended humanity. [TERMINAL STATUS: OFFLINE] GAME OVER.",
 "choices": [
+{"text": "Choice 1: Restart game.", "next": "start"},
 ]
 },
 "Leave_net": {
-"text": "You edge toward the exit, but the creature isn't finished. With terrifying speed, it launches itself at you. White-hot pain explodes across your ribs as its claws tear through your suit. You stumble backward through the doorway as the creature retreats into the shadows, leaving you with nothing but a bleeding wound and the unsettling memory of what you glimpsed in those final seconds—a nightmare fusion of machine and flesh. [TERMINAL STATUS: OFFLINE](how to teminate)",
+"text": "You edge toward the exit, but the creature isn't finished. With terrifying speed, it launches itself at you. White-hot pain explodes across your ribs as its claws tear through your suit. You stumble backward through the doorway as the creature retreats into the shadows, leaving you with nothing but a bleeding wound and the unsettling memory of what you glimpsed in those final seconds—a nightmare fusion of machine and flesh. [TERMINAL STATUS: OFFLINE] GAME OVER.",
 "choices": [
+{"text": "Choice 1: Restart game.", "next": "start"},
 ]
 },
 "Run_to_Security_Station": {
-"text": "The Security Station door slides shut with a reassuring click. Rows of monitors illuminate your face as you activate the aging camera network. Static clears from the screens one by one, revealing different sections of the facility. Click Cargo Bay A: Clear Click Crew Quarters: Empty Click Engineering Bay: Signs of damage, scattered tools Click Maintenance Level B: Movement detected You lean closer, adjusting the focus. There they are—three Sentinels. The machines move with disturbing precision, their metallic tentacles probing into maintenance shafts and ventilation ducts. One appears damaged, trailing sparks as it moves. The other two are intact, their red sensor arrays methodically scanning every corner. The defense systems are at your fingertips. Turrets, blast doors, electromagnetic pulses—enough firepower to shred them to pieces. But these are living proof of something impossible. Someone has recreated humanity's oldest mechanical enemy, and these might be the only evidence. The cameras track their movement. They're searching for something... or someone. The question isn't just about survival anymore—it's about what happens next. Do you want to kill them?",
+"text": "The Security Station door slides shut with a reassuring click. Rows of monitors illuminate your face as you activate the aging camera network. Static clears from the screens one by one, revealing different sections of the facility. You lean closer, adjusting the focus. There they are—three Sentinels. The machines move with disturbing precision, their metallic tentacles probing into maintenance shafts and ventilation ducts. One appears damaged, trailing sparks as it moves. The other two are intact, their red sensor arrays methodically scanning every corner. The defense systems are at your fingertips. Turrets, blast doors, electromagnetic pulses—enough firepower to shred them to pieces. But these are living proof of something impossible. Someone has recreated humanity's oldest mechanical enemy, and these might be the only evidence. The cameras track their movement. They're searching for something... or someone. The question isn't just about survival anymore—it's about what happens next. Do you want to kill them?",
 "choices": [
-{"text": "Yes", "next": "Run_to_Engineering_Bay"},
-{"text": "No", "next": "Begin_immediate_evacuation_1"},
-{"text": "Hesitate", "next": "Cornered"},
+{"text": "Choice 1: Yes", "next": "Run_to_Engineering_Bay"},
+{"text": "Choice 2: No", "next": "Begin_immediate_evacuation_1"},
+{"text": "Choice 3: Hesitate", "next": "Cornered"},
 ]
 },
 "Begin_immediate_evacuation_1": {
 "text": "EMERGENCY EVACUATION PROTOCOL INITIATED Red warning lights pulse through the corridors. You need to get out—now. The main exit is two levels up. The creatures' movements on the security feeds become more agitated as the alarm echoes through the facility.",
 "choices": [
-{"text": "Run - Sprint for the emergency stairwell. Speed over stealth", "next": "Run"},
-{"text": "Retreat slowly - Take the maintenance paths. Quiet but longer.", "next": "Cornered"},
+{"text": "Choice 1: Run - Sprint for the emergency stairwell. Speed over stealth", "next": "Run"},
+{"text": "Choice 2: Retreat slowly - Take the maintenance paths. Quiet but longer.", "next": "Cornered"},
 ]
 },
 "Run": {
 "text": "Your footsteps thunder down the metal corridors. The evacuation siren masks some of the noise, but not enough. Behind you, mechanical whirring grows closer. A quick glance back confirms your fear—two Sentinels, their red sensors fixed on your position. They're closing in, moving faster than you thought possible. The exit is still so far...",
 "choices": [
-{"text": "You try your best to move quickly but quietly into a defensive position", "next": "Ready_defensive_position_1"},
+{"text": "Choice 1: You try your best to move quickly but quietly into a defensive position", "next": "Ready_defensive_position_1"},
 ]
 },
 "Cornered": {
 "text": "You ease through the maintenance tunnels, counting your steps, controlling your breathing. The narrow paths should be harder for them to navigate. A wrong turn leads to a dead end. As you turn back, mechanical sounds echo from both directions. The creatures have split up, cutting off your escape routes. The walls feel closer, tighter. You're cornered.",
 "choices": [
-{"text": "Your back pressed against cold steel, you spot a familiar service hatch—Engineering Bay access. ", "next": "Run_to_Engineering_Bay"},
-{"text": "Your mind races through options, precious seconds ticking away as indecision paralyzes you.", "next": "Dead_hesitate"},
+{"text": "Choice 1: Your back pressed against cold steel, you spot a familiar service hatch—Engineering Bay access. ", "next": "Run_to_Engineering_Bay"},
+{"text": "Choice 2: Your mind races through options, precious seconds ticking away as indecision paralyzes you.", "next": "Dead_hesitate"},
 ]
 },
 "Dead_hesitate": {
-"text": "Three seconds: The whirring grows louder. Four seconds: Red sensor lights reflect off the steel walls. Five seconds: Too late. They strike from both sides. Multiple mechanical arms tear through the confined space with lethal precision. The last thing you see is the cold gleam of their metallic forms, red sensors pulsing as they close in. Your hesitation was fatal. [TERMINAL STATUS: OFFLINE](how to teminate)",
+"text": "Three seconds: The whirring grows louder. Four seconds: Red sensor lights reflect off the steel walls. Five seconds: Too late. They strike from both sides. Multiple mechanical arms tear through the confined space with lethal precision. The last thing you see is the cold gleam of their metallic forms, red sensors pulsing as they close in. Your hesitation was fatal. [TERMINAL STATUS: OFFLINE] GAME OVER.",
 "choices": [
+{"text": "Choice 1: Restart game.", "next": "start"},
 ]
 },
 "More_1": {
 "text": "The whispered realization barely leaves your lips when the scratching patterns change. They've heard you—somehow they've heard you. The mechanical sounds shift from search patterns to something else: precise, coordinated movement. Like wolves circling prey. The Sentinels aren't just machines anymore—they're a coordinated hunting party. And you've just identified yourself as prey.",
 "choices": [
-{"text": "Move quickly but quietly into a defensive position", "next": "Ready_defensive_position_1"},
-{"text": "Signal for immediate evacuation while there's still time", "next": "Begin_immediate_evacuation_1"},
+{"text": "Choice 1: Move quickly but quietly into a defensive position", "next": "Ready_defensive_position_1"},
+{"text": "Choice 2: Signal for immediate evacuation while there's still time", "next": "Begin_immediate_evacuation_1"},
 ]
 }
         // Add more scenes as needed
@@ -640,21 +661,31 @@ function readCurrentChoice() {
     speak(scene.choices[gameState.selectedChoice].text, true);
 }
 
-// Speak text using the Web Speech API
 function speak(text, interrupt = true) {
     if (gameState.isSpeaking && !interrupt) {
         return;
     }
     
+    // Cancel any current speech if interrupting
+    if (interrupt) {
+        gameState.speechSynth.cancel();
+        gameState.isSpeaking = false;
+    }
+    
+    // Create new utterance
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.rate = gameState.speechRate;
     
-    if (interrupt) {
-        gameState.speechSynth.cancel();
-    }
+    utterance.onboundary = (event) => {
+        if (event.name === 'word') {
+            gameState.lastSpokenWord = event.charIndex;
+        }
+    };
     
     utterance.onend = () => {
         gameState.isSpeaking = false;
+        gameState.pausedUtterance = null;
+        gameState.pausedTextPosition = 0;
     };
     
     gameState.isSpeaking = true;
@@ -662,8 +693,15 @@ function speak(text, interrupt = true) {
     gameState.speechSynth.speak(utterance);
 }
 
-// Settings menu functions
 function openSettingsMenu() {
+    // Pause current speech if speaking
+    if (gameState.isSpeaking && !gameState.isTextPaused) {
+        gameState.speechSynth.pause();
+        gameState.pausedUtterance = gameState.speechUtterance;
+        gameState.pausedText = gameState.speechUtterance.text; // Store full text
+        gameState.isTextPaused = true;
+    }
+    
     gameState.isSettingsOpen = true;
     const menu = document.getElementById('settings-menu');
     menu.hidden = false;
@@ -671,7 +709,7 @@ function openSettingsMenu() {
     gameState.settingsFocusedElement = document.activeElement;
     document.getElementById('close-settings').focus();
     speak("Settings menu opened. Current speech rate is " + gameState.speechRate.toFixed(1) + 
-          ". Use up and down arrows to adjust rate. Press Enter to close.", true);
+          ". Use plus and minus buttons or up and down arrows to adjust rate. Press Enter to close.", true);
 }
 
 function closeSettingsMenu() {
@@ -679,12 +717,26 @@ function closeSettingsMenu() {
     const menu = document.getElementById('settings-menu');
     menu.hidden = true;
     document.body.classList.remove('menu-open');
+    
+    // Resume paused speech if there was any
+    if (gameState.isTextPaused && gameState.pausedUtterance) {
+        // Get the remaining text from where we paused
+        const remainingText = gameState.pausedText.substring(gameState.pausedTextPosition);
+        
+        // Reset pause state before speaking
+        gameState.isTextPaused = false;
+        
+        // Add small delay before resuming
+        setTimeout(() => {
+            speak(remainingText, true);
+        }, 600); // 300ms delay to ensure settings menu is fully closed
+    }
+    
     if (gameState.settingsFocusedElement) {
         gameState.settingsFocusedElement.focus();
     }
     speak("Settings menu closed.");
 }
-
 function adjustSpeechRate(change) {
     gameState.speechRate = Math.min(Math.max(gameState.speechRate + change, 0.5), 4);
     document.getElementById('rate-value').textContent = gameState.speechRate.toFixed(1);
