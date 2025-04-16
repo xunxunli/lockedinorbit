@@ -678,34 +678,54 @@ const gameState = {
 };
 // Initialize the game
 function initGame() {
-    unlockAudio();
-    
     // Set up click-to-begin
     const startScreen = document.getElementById('start-screen');
+    const gameContainer = document.getElementById('game-container');
+    
+    // Show start screen initially
     startScreen.style.display = 'block';
-    startScreen.addEventListener('click', () => {
-        startScreen.style.display = 'none';
-        // Focus the game container before displaying scene
-        document.getElementById('game-container').focus();
-        displayScene(gameState.currentScene);
-    });
+    gameContainer.style.display = 'none';
     
-    // Also allow any key to start (now works without clicking first)
-    document.addEventListener('keydown', (e) => {
-        if (startScreen.style.display !== 'none') {
-            startScreen.style.display = 'none';
-            // Focus the game container before displaying scene
-            document.getElementById('game-container').focus();
-            displayScene(gameState.currentScene);
-        }
-    }, { once: true });
-    
+    // Initialize audio and other setup
+    unlockAudio();
     setupControls();
     setupSettingsMenu();
     document.getElementById('rate-value').textContent = gameState.speechRate.toFixed(1);
     
-    // Automatically focus the game container on load
-    document.getElementById('game-container').focus();
+    // Handle click to start
+    startScreen.addEventListener('click', () => {
+        startGame();
+    });
+    
+    // Also allow any key press to start
+    document.addEventListener('keydown', function startGameListener(e) {
+        startGame();
+        document.removeEventListener('keydown', startGameListener);
+    }, { once: true });
+    
+    function startGame() {
+        startScreen.style.display = 'none';
+        gameContainer.style.display = 'block';
+        document.body.style.cursor = 'none'; // Hide cursor when game starts
+        
+        // Focus and display first scene
+        gameContainer.focus();
+        displayScene(gameState.currentScene);
+        
+        // Speak welcome message
+        speak("Welcome to Locked in Orbit. Use up/down arrows to choose, Enter to select, Space to repeat text. Press S for settings.");
+    }
+    
+    // For accessibility, ensure cursor returns when tabbing to controls
+    document.getElementById('settings-btn').addEventListener('focus', () => {
+        document.body.style.cursor = 'default';
+    });
+    
+    document.getElementById('game-container').addEventListener('focus', () => {
+        if (startScreen.style.display === 'none') {
+            document.body.style.cursor = 'none';
+        }
+    });
 }
 
 
@@ -806,22 +826,15 @@ function speak(text, interrupt = true) {
 }
 
 function openSettingsMenu() {
-    // Pause current speech if speaking
-    if (gameState.isSpeaking && !gameState.isTextPaused) {
-        gameState.speechSynth.pause();
-        gameState.pausedUtterance = gameState.speechUtterance;
-        gameState.pausedText = gameState.speechUtterance.text; // Store full text
-        gameState.isTextPaused = true;
-    }
-    
     gameState.isSettingsOpen = true;
     const menu = document.getElementById('settings-menu');
     menu.hidden = false;
+    document.body.classList.remove('game-active'); // Show cursor in settings
     document.body.classList.add('menu-open');
     gameState.settingsFocusedElement = document.activeElement;
     document.getElementById('close-settings').focus();
     speak("Settings menu opened. Current speech rate is " + gameState.speechRate.toFixed(1) + 
-          ". Use up and down arrow keys to adjust rate. Press Enter to close.", true);
+         ". Use up/down arrows to adjust rate. Press Enter to confirm or Escape to close.", true);
 }
 
 function closeSettingsMenu() {
@@ -829,26 +842,11 @@ function closeSettingsMenu() {
     const menu = document.getElementById('settings-menu');
     menu.hidden = true;
     document.body.classList.remove('menu-open');
-    
-    // Resume paused speech if there was any
-    if (gameState.isTextPaused && gameState.pausedUtterance) {
-        // Get the remaining text from where we paused
-        const remainingText = gameState.pausedText.substring(gameState.pausedTextPosition);
-        
-        // Reset pause state before speaking
-        gameState.isTextPaused = false;
-        
-        // Add small delay before resuming
-        setTimeout(() => {
-            speak(remainingText, true);
-        }, 600); // 300ms delay to ensure settings menu is fully closed
-    }
-    
-    if (gameState.settingsFocusedElement) {
-        gameState.settingsFocusedElement.focus();
-    }
-    speak("Settings menu closed.");
+    document.body.classList.add('game-active'); // Hide cursor again
+    document.getElementById('game-container').focus();
+    speak("Settings menu closed. Current speech rate is " + gameState.speechRate.toFixed(1));
 }
+
 function adjustSpeechRate(change) {
     gameState.speechRate = Math.min(Math.max(gameState.speechRate + change, 0.5), 10);
     document.getElementById('rate-value').textContent = gameState.speechRate.toFixed(1);
