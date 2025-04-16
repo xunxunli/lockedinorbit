@@ -29,7 +29,7 @@ const gameState = {
     selectedChoice: 0,
     speechSynth: window.speechSynthesis,
     speechUtterance: null,
-    speechRate: 5,
+    speechRate: 3,
     isSettingsOpen: false,
     settingsFocusedElement: null,
     isSpeaking: false,
@@ -953,6 +953,7 @@ function setupControls() {
                     const nextScene = scene.choices[gameState.selectedChoice].next;
                     if (nextScene) {
                         displayScene(nextScene);
+                        window.scrollTo(0, 0);
                     }
                 }
                 break;
