@@ -42,7 +42,6 @@ body.game-active {
     color: #FFF;
 }
 
-.choice:hover,
 .choice:focus,
 .choice.selected {
     background-color: #FFD700;
@@ -50,6 +49,13 @@ body.game-active {
     outline: 3px solid #FFD700;
     outline-offset: 4px;
 }
+
+/* .choice:hover {
+    background-color: #000000;
+    color: #000;
+    outline: 3px solid #FFD700;
+    outline-offset: 4px;
+} */
 
 .controls {
     margin-top: 24px;
