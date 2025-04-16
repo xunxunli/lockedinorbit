@@ -488,7 +488,7 @@ const gameState = {
 {"text": "Choice 1: Try to override the disabled lock for the escape pods. You have a fishy feeling about this AI system. ", "next": "override_intro"},
 {"text": "Choice 2: Ask the AI system for help with overriding the escape pod lock. The AI system chimes in 'You can certainly try to decipher the escape pod code, but I am only giving you three hints. Going to the safe room is your best bet'", "next": "hint_intro"},
 {"text": "Choice 3: Search for another way off ", "next": "escape_intro"},
-{"text": "Choice 4: Go to safe room, the AI sounds suspicious, but it is probably okay! ", "next": "saferoom_ending "},
+{"text": "Choice 4: Go to safe room, the AI sounds suspicious, but it is probably okay! ", "next": "saferoom_ending"},
 ]
 },
 "hint_intro": {
@@ -497,7 +497,7 @@ const gameState = {
 {"text": "Choice 1: Try to override the disabled lock for the escape pods. You know what the word is!", "next": "override_intro"},
 {"text": "Choice 2: Ask the AI system for another clue. That clue wasn't enough and it did say you have two more left! ", "next": "hint_two"},
 {"text": "Choice 3: Search for another way off ", "next": "escape_intro"},
-{"text": "Choice 4: Go to safe room, the AI sounds suspicious, but it is probably okay! ", "next": "saferoom_ending "},
+{"text": "Choice 4: Go to safe room, the AI sounds suspicious, but it is probably okay! ", "next": "saferoom_ending"},
 ]
 },
 "hint_two": {
@@ -506,7 +506,7 @@ const gameState = {
 {"text": "Choice 1: Try to override the disabled lock for the escape pods. After two clues you definitely have it down!", "next": "override_intro"},
 {"text": "Choice 2: Ask the AI system for one more clue. You want all the hints you can get.", "next": "hint_three"},
 {"text": "Choice 3: Search for another way off", "next": "escape_intro"},
-{"text": "Choice 4: Go to safe room, the AI is insisting so you should probably go. ", "next": "saferoom_ending "},
+{"text": "Choice 4: Go to safe room, the AI is insisting so you should probably go. ", "next": "saferoom_ending"},
 ]
 },
 "hint_three": {
@@ -515,7 +515,7 @@ const gameState = {
 {"text": "Choice 1: Try to override the disabled lock for the escape pods. You know what you're doing now!", "next": "override_intro"},
 {"text": "Choice 2: Ask the AI system for just one more clue and see what these 'consequences' are.", "next": "hint_ending"},
 {"text": "Choice 3: Search for another way off", "next": "escape_intro"},
-{"text": "Choice 4: Go to safe room, you can't figure out the clue and that is probably your best bet.", "next": "saferoom_ending "},
+{"text": "Choice 4: Go to safe room, you can't figure out the clue and that is probably your best bet.", "next": "saferoom_ending"},
 ]
 },
 "hint_ending": {
@@ -525,7 +525,7 @@ const gameState = {
 ]
 },
 "override_intro": {
-"text": "You go to the control panel in the escape room to override the locks. As you begin typing in the code, you hear a voice that says 'WARNING, you have three attempts to override the locks and escape.' You look at the panel and you see three different options for what the code could be. ",
+"text": "You go to the control panel in the escape room to override the locks. As you begin typing in the code, you hear a voice that says 'WARNING, you have two attempts to override the locks and escape.' You look at the panel and you see three different options for what the code could be. ",
 "choices": [
 {"text": "Choice 1: The 'Spaceship' Option looks like the correct one! You choose that.", "next": "override_two"},
 {"text": "Choice 2: The 'Void' Option looks like the correct one! You choose that.", "next": "override_two"},
