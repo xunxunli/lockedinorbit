@@ -313,7 +313,7 @@ const gameState = {
 "text": "You plant your feet and say, “Not until you tell me what’s going on.” Harlan stops. He turns, slow and quiet. He says, “You’re not ready.” He doesn’t sound angry. Just… disappointed. Then he says, “But you will be.” He walks away and disappears down the corridor without another word. You’re alone again. The lights flicker. The hallway stretches out ahead, darker than before. Something moves in the vent overhead.",
 "choices": [
 {"text": "Choice 1: Follow him anyway. He might still be your only lead.", "next": "crew_a221"},
-{"text": "Choice 2: Stay put. Maybe there’s another way. ", "next": "crew_a222"},
+{"text": "Choice 2: Stay put. Maybe there’s another way. ", "next": "crew_a11b2"},
 ]
 },
 "crew_a211": {
@@ -326,14 +326,14 @@ const gameState = {
 "text": "You take a step back. You say, 'I’m not leaving until you tell me what’s going on.' Harlan stops. His voice is cold. 'You’re either with us, or you’re in the way.' He raises the metal rod. For a second, you think he’s going to strike, but he doesn’t. Instead, he lowers it. He says, “You’re not ready. But they’ll make you ready.” Without another word, he walks out the door and disappears down the hall.",
 "choices": [
 {"text": "Choice 1: Follow him anyway.", "next": "crew_a221"},
-{"text": "Choice 2: Stay behind and try to find another exit.", "next": "crew_a222"},
+{"text": "Choice 2: Stay behind and try to find another exit.", "next": "crew_a11b2"},
 ]
 },
 "crew_a221": {
 "text": "You follow Harlan through the dim hallway. The ship creaks and groans around you. Pipes hiss overhead. You say nothing, and neither does he. He leads you to a locked door. A strange symbol is drawn on it, one that doesn’t match any section of the ship you’ve seen before. He opens it with a code you don’t recognize. Inside, the room is filled with quiet murmurs. Other figures in torn uniforms glance up as you enter. One of them says, “Is this the one?” Harlan nods. He says, “They shut off the message. That means they’re ready.” They offer you a headset. No one forces you to take it, but everyone watches.",
 "choices": [
 {"text": "Choice 1: Take the headset.", "next": "crew_a2211"},
-{"text": "Choice 2: Refuse and try to run.", "next": "crew_a2212"},
+{"text": "Choice 2: Refuse and try to run.", "next": "crew_a11b2"},
 ]
 },
 "crew_a2211": {
@@ -345,7 +345,7 @@ const gameState = {
 "crew_a3": {
 "text": "The communicator’s input function is locked, but after a few tries, you force it into manual mode. You start to type. A shadow shifts against the wall. A voice says: 'Don’t.' The voice is human, low, raspy. A man steps out from the darkness, limping slightly. His jumpsuit is stained, one sleeve shredded, a scalpel glinting in his grip. He says: 'They’ll hear you.' The communicator flashes, a new message appearing on-screen: DO NOT TRUST HIM. He sees it too. His expression darkens.",
 "choices": [
-{"text": "Choice 1: Grab a makeshift weapon and swing at him.", "next": "crew_111"},
+{"text": "Choice 1: Grasp at a nearby wrench and use it as a makeshift weapon to swing at him.", "next": "crew_a111"},
 {"text": "Choice 2: Make a run for it.", "next": "crew_a13"},
 ]
 },
@@ -354,6 +354,12 @@ const gameState = {
 "choices": [
 {"text": "Choice 1: Swing the wrench at his skull.", "next": "crew_a111"},
 {"text": "Choice 2: Try and stab him with his own scalpel.", "next": "crew_a122"},
+]
+},
+"crew_a122": {
+"text": "You wait until he turns, attempting to grab his wrist and drive the scalpel towards his throat. Unfortunately, you were not fast enough. He catches your wrists and eviscerates you. GAME OVER.",
+"choices": [
+{"text": "Choice 1: Restart game.", "next": "start"},
 ]
 },
 "crew_a13": {
@@ -420,7 +426,13 @@ const gameState = {
 "text": "You ease the door open, holding your breath. Inside is a tight space filled with shelves of equipment. Most of it looks damaged. You spot a small flashlight, a sealed medkit, and something that looks like a toolkit. Then you hear it. A small knock from inside the wall. It comes again.",
 "choices": [
 {"text": "Choice 1: Take the flashlight and leave quickly.", "next": "crew_c111"},
-{"text": "Choice 2: Stay and investigate the knocking sound.", "next": "crew_c122"},
+{"text": "Choice 2: Stay and investigate the knocking sound.", "next": "crew_c112"},
+]
+},
+"crew_c112": {
+"text": "You press your ear closer. The knock repeats, slower now. Then, a whisper from inside the wall: Someone says, “Help me... it’s still here...” Before you can react, the room lights cut out. You freeze. Behind you, something exhales. Close. A sharp pain washes over you. GAME OVER.",
+"choices": [
+{"text": "Choice 1: Restart game.", "next": "start"},
 ]
 },
 "crew_c111": {
@@ -435,6 +447,39 @@ const gameState = {
 "text": "You kept hiding. Too nervous to leave, you stayed in the locker until your death. GAME OVER.",
 "choices": [
 {"text": "Choice 1: Restart game.", "next": "start"},
+]
+},
+"crew_c12": {
+"text": "You slowly push open the locker door. The lights flicker, casting sharp shadows across the room. It's quiet now—no breathing, no footsteps. The communicator is dark. Across the room, the storage locker hangs open.",
+"choices": [
+{"text": "Choice 1: Leave the room towards the control panels- maybe there is some useful information?", "next": "control_intro"},
+{"text": "Choice 2: Search the storage locker", "next": "crew_c122"},
+]
+},
+"crew_c122": {
+"text": "You move toward the open storage locker. Inside, it’s a mess—torn fabric, scattered tools, a cracked faceplate from someone’s helmet. At the back, something metal glints. A prybar. As you lift it, the door behind you creaks. A voice says, “That’s mine.”",
+"choices": [
+{"text": "Choice 1: Turn and face whoever is behind you.", "next": "crew_111"},
+{"text": "Choice 2: Run with the prybar.", "next": "escape_intro"},
+]
+},
+"crew_111": {
+"text": "You turn to face the voice. It’s Harlan. His arm is bleeding, his uniform worse than before. But his grip on the scalpel is steady. He says, “You shouldn’t have run.” He takes a step forward. You realize—he’s not here to talk.",
+"choices": [
+{"text": "Choice 1: Try to talk to him and make peace.", "next": "crew_112"},
+{"text": "Choice 2: Use the prybar.", "next": "crew_113"},
+]
+},
+"crew_112": {
+"text": "You raise your hands, voice calm. You say, “You don’t have to do this. We can both get out.” Harlan stops—but only for a moment. He says, “You still don’t get it. No one leaves.” He lunges. You move to dodge, but not fast enough. Everything goes cold. GAME OVER.",
+"choices": [
+{"text": "Choice 1: Restart game.", "next": "start"},
+]
+},
+"crew_113": {
+"text": "You swing the prybar. It hits his shoulder with a heavy crack. He drops the scalpel. He stumbles, groaning, and backs toward the wall. You don’t wait. You grab the scalpel and run. Behind you, Harlan doesn’t follow. Ahead, the hallway lights flicker toward a door marked: Escape Access",
+"choices": [
+{"text": "Choice 1: Head for the escape door.", "next": "escape_intro"},
 ]
 },
 "escape_intro": {
