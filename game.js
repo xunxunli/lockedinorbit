@@ -49,7 +49,7 @@ const gameState = {
             ]
         },
         "start": {
-"text": "The smell of burnt wires fills the air. Cold metal presses against your back as you wake up, your head pounding. Something is wrong. Red emergency lights flash on and off. A distant alarm blares, broken by bursts of static from the ship’s speakers. The ship hums softly beneath you, but it sounds… weaker than it should. A robotic voice crackles over the intercom, words cutting in and out: 'Warning: Critical failure detected. Crew status unknown. Please proceed to the nearest safe zone.' No response. No voices. Just silence. A control panel nearby blinks weakly. The door to the crew quarters is slightly open. The hallway is still. Then, from the vents above, something moves. Light, quick footsteps, too fast to be human.",
+"text": "You wake up on cold metal with a pounding head. Something’s wrong. The air smells like burnt wires. Red lights flash. An alarm wails, cutting in and out with static. The ship hums beneath you, but it sounds weak. A robotic voice crackles: 'Warning: Critical failure. Crew status unknown. Find the nearest safe zone.' No reply. Just silence. A nearby panel blinks. The door to the crew quarters is ajar. The hallway is quiet. Then—soft, fast footsteps from the vents above. Not human.",
 "choices": [
 {"text": "Option 1: Check the control panel. Maybe it has logs that explain what happened.", "next": "control_intro"},
 {"text": "Option 2: Search the crew quarters. Someone might still be here.", "next": "crew_intro"},
