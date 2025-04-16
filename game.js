@@ -487,7 +487,7 @@ const gameState = {
 "choices": [
 {"text": "Choice 1: Try to override the disabled lock for the escape pods. You have a fishy feeling about this AI system. ", "next": "override_intro"},
 {"text": "Choice 2: Ask the AI system for help with overriding the escape pod lock. The AI system chimes in 'You can certainly try to decipher the escape pod code, but I am only giving you three hints. Going to the safe room is your best bet'", "next": "hint_intro"},
-{"text": "Choice 3: Search for another way off ", "next": "escape_intro"},
+{"text": "Choice 3: Search for another way off ", "next": "start"},
 {"text": "Choice 4: Go to safe room, the AI sounds suspicious, but it is probably okay! ", "next": "saferoom_ending"},
 ]
 },
